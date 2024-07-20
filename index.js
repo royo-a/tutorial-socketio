@@ -24,8 +24,14 @@ app.get('/', (req, res) => {
 io.on('connection', socket => {
   console.log('a user connected');
 
+  // 👉 Emit to all other clients except the client who
+  // sent the message.
+  // socket.broadcast.emit('chat message', msg);
+
   socket.on('chat message', msg => {
-    console.log('Message: ' + msg);
+    // 👉 Emit the message to all clients, including
+    // the one who generated the message.
+    io.emit('chat message', msg);
   });
 
   socket.on('disconnect', () => {
