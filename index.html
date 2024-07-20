@@ -27,6 +27,19 @@
 <script src="/socket.io/socket.io.js"></script>
 <script>
   const socket = io();
+
+  const form = document.getElementById('form');
+  const input = document.getElementById('input');
+
+  form.addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (input.value) {
+      // 👉 Emit 'chat message' event with value of input
+      // field
+      socket.emit('chat message', input.value);
+      input.value = '';
+    }
+  });
 </script>
 </body>
 </html>

@@ -23,6 +23,11 @@ app.get('/', (req, res) => {
 // new browser window is opened.
 io.on('connection', socket => {
   console.log('a user connected');
+
+  socket.on('chat message', msg => {
+    console.log('Message: ' + msg);
+  });
+
   socket.on('disconnect', () => {
     // 👉 This code will run for every browser window close
     // because the socket client disconnects with the socket server.
