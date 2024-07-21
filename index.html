@@ -59,6 +59,15 @@
   socket.on('test emit back', (msg)=>{
     console.log(msg);
   })
+
+  // For all outgoing events
+  socket.onAnyOutgoing((eventname)=>{
+    console.log('socket.onAnyOutgoing: ' + eventname);
+  })
+  // For all incoming events
+  socket.onAny((eventname)=>{
+    console.log('socket.onAny: ' + eventname);
+  })
 </script>
 </body>
 </html>

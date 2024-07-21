@@ -44,6 +44,7 @@ io.on('connection', socket => {
     io.emit('chat message', msg);
   });
 
+  // A 'disconnect' event occurs when the client is closing
   socket.on('disconnect', () => {
     // 👉 This code will run for every browser window close
     // because the socket client disconnects with the socket server.
