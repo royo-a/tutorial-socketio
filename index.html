@@ -42,12 +42,23 @@
     }
   });
 
+  // Only emit to the server
+  socket.emit('test emit', 'this is a test emit sent from client');
+
+  // Emit for acknowledgement
+  socket.emit('emit for ack', 'Client is sending event for ack', (err, res) => {
+    console.log(res.status);
+  });
+
   socket.on('chat message', (msg) => {
     const item = document.createElement('li');
     item.textContent = msg;
     messages.appendChild(item);
     window.scrollTo(0, document.body.scrollHeight);
   });
+  socket.on('test emit back', (msg)=>{
+    console.log(msg);
+  })
 </script>
 </body>
 </html>

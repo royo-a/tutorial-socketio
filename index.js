@@ -9,9 +9,13 @@ const app = express();
 // Node server
 const server = createServer(app);
 // Socket server (io) mounts of top of node server
+const __dirname = dirname(fileURLToPath(import.meta.url));
 const io = new Server(server);
 
-const __dirname = dirname(fileURLToPath(import.meta.url));
+// Server connects to port 3000 of localhost
+server.listen(3000, () => {
+  console.log('server running at http://localhost:3000');
+});
 
 // GET '/'
 app.get('/', (req, res) => {
@@ -28,6 +32,12 @@ io.on('connection', socket => {
   // sent the message.
   // socket.broadcast.emit('chat message', msg);
 
+  socket.on('test emit', msg => {
+    console.log(msg);
+    // Emit only to the client who sent the event
+    socket.emit('test emit back', 'this is an emit from the server');
+  });
+
   socket.on('chat message', msg => {
     // 👉 Emit the message to all clients, including
     // the one who generated the message.
@@ -39,9 +49,10 @@ io.on('connection', socket => {
     // because the socket client disconnects with the socket server.
     console.log('a user disconnected');
   });
-});
 
-// Server connects to port 3000 of localhost
-server.listen(3000, () => {
-  console.log('server running at http://localhost:3000');
+  // Send acknowledgement through callback
+  socket.on('emit for ack', (msg, callback) => {
+    console.log(msg);
+    callback(null, { status: 'ok' });
+  });
 });
